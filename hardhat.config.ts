@@ -8,6 +8,7 @@ import "hardhat-spdx-license-identifier";
 import "hardhat-watcher";
 import "solidity-coverage";
 import "@typechain/hardhat";
+import "hardhat-deploy-ethers";
 import "@tenderly/hardhat-tenderly";
 
 import { HardhatUserConfig, task } from "hardhat/config";
