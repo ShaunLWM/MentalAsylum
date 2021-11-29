@@ -1,10 +1,10 @@
-import { MentalAsylum } from "../typechain-types/MentalAsylum";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 
-export default async ({ getNamedAccounts, deployments }) => {
+export default async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const { address }: MentalAsylum = await deploy("MentalAsylum", {
+  const { address } = await deploy("MentalAsylum", {
     from: deployer,
     args: ["MentalAsylum", "ASY", ""],
   });
