@@ -2,6 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## Instructions
+1. `yarn`
+2. `cp .env.example .env`
+3. Set `FORKING` to true
+4. Sign up for Alchemy ETH mainnet and enter your id
+5. Run `yarn compile` whenever contracts are edited or added
+
+---
+
 ## Env
 
 ```sh
