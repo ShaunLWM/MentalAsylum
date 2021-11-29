@@ -39,6 +39,9 @@ jobs:
     - name: Installing dependencies
       run: yarn install --frozen-lockfile
 
+    - name: Compile contracts and typings
+      run: npx hardhat compile
+
     - name: yarn test:coverage
       run: yarn test:coverage
 
