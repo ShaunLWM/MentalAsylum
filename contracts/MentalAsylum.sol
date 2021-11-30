@@ -54,7 +54,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
 
     function premint(uint256 _times) payable public {
         require(presaleStarted && !started, "presale not started");
-        require(presales[_msgSender()] > 0 && presales[_msgSender()] <= _times, "not allowed");
+        require(presales[_msgSender()] > 0 && _times <= presales[_msgSender()], "not allowed");
         mintItem(_times, true);
     }
 
