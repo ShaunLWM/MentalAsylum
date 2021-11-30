@@ -49,7 +49,6 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     }
 
     function setPresale(address _user, uint256 _times) public onlyOwner {
-        require(presaleStarted && !started, "presale not started");
         presales[_user] = _times;
     }
 
