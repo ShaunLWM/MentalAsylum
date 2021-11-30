@@ -12,6 +12,13 @@
 
 ---
 
+## Good sources to read
+- https://github.com/sushiswap/trident/blob/master/test/Migration.test.ts
+- https://github.com/sushiswap/sushiswap/tree/canary/test
+
+## TODO
+- [Reveal timestamp](https://gist.github.com/JofArnold/bf2c4a094fcdd4aee2f52983c7714de8#file-boredapeyachtclub-sol-L1923)
+
 ## Env
 
 ```sh
