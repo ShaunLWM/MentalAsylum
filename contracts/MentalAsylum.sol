@@ -44,7 +44,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         started = _start;
     }
 
-    function setPresale(bool _start) public onlyOwner {
+    function setPresaleStart(bool _start) public onlyOwner {
         presaleStarted = _start;
     }
 
