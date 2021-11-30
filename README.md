@@ -1,8 +1,9 @@
 # hardhat-template-ts ([forked](https://github.com/sushiswap/hardhat-foundation))
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Coverage Status](https://coveralls.io/repos/github/ShaunLWM/MentalAsylum/badge.svg?branch=master&t=Tl7NmY)](https://coveralls.io/github/ShaunLWM/MentalAsylum?branch=master)
 
 ## Instructions
+
 1. `yarn`
 2. `cp .env.example .env`
 3. Set `FORKING` to true
