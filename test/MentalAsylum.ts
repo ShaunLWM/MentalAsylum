@@ -111,7 +111,9 @@ describe("MentalAsylum", () => {
         .withArgs(alice.address, currentPatients.add(1), 1);
       expect(await MentalAsylumContract.balanceOf(alice.address)).to.equal(1);
       expect(await jsonProvider.getBalance(deployer.address)).to.eq(ownerBalance.add(ethers.utils.parseEther("0.05")));
-      expect(await MentalAsylumContract.totalPatients()).to.equal(1);
+      // Bob has already deployed 1 above
+      // TODO: Fix order of test?
+      expect(await MentalAsylumContract.totalPatients()).to.equal(2);
     });
   });
 });
