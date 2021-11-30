@@ -41,19 +41,6 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         started = _start;
     }
 
-    function tokensOfOwner(address owner)
-        public
-        view
-        returns (uint256[] memory)
-    {
-        uint256 count = balanceOf(owner);
-        uint256[] memory ids = new uint256[](count);
-        for (uint256 i = 0; i < count; i++) {
-            ids[i] = tokenOfOwnerByIndex(owner, i);
-        }
-        return ids;
-    }
-
     function mint(uint256 _times) payable public {
         require(started, "not started");
         require(_times > 0 && _times <= maxBatch, "must mint fewer in each batch");
