@@ -10,6 +10,8 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     using Strings for uint256;
     event MintPatient(address indexed sender, uint256 startWith, uint256 times);
 
+    mapping(address => uint256) public presales;
+
     uint256 public totalPatients;
     uint256 public totalCount = 9999;
 
@@ -18,7 +20,8 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
 
     string public baseURI;
 
-    bool private started;
+    bool public started;
+    bool public presaleStarted;
 
     constructor(string memory name_, string memory symbol_, string memory baseURI_) ERC721(name_, symbol_) {
         baseURI = baseURI_;
@@ -41,15 +44,38 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         started = _start;
     }
 
+    function setPresale(bool _start) public onlyOwner {
+        presaleStarted = _start;
+    }
+
+    function setPresale(address _user, uint256 _times) public onlyOwner {
+        require(presaleStarted && !started, "presale not started");
+        presales[_user] = _times;
+    }
+
+    function premint(uint256 _times) payable public {
+        require(presaleStarted && !started, "presale not started");
+        require(presales[_msgSender()] > 0 && presales[_msgSender()] <= _times, "not allowed");
+        mintItem(_times, true);
+    }
+
     function mint(uint256 _times) payable public {
         require(started, "not started");
         require(_times > 0 && _times <= maxBatch, "must mint fewer in each batch");
+        mintItem(_times,false);
+    }   
+
+    function mintItem(uint256 _times, bool fromPremint) internal {
         require(totalPatients + _times <= totalCount, "max supply reached!");
         require(msg.value == _times * price, "value error, please check price.");
         payable(owner()).transfer(msg.value);
+        if (fromPremint) {
+            presales[_msgSender()] -= _times;
+        }
+
         emit MintPatient(_msgSender(), totalPatients + 1, _times);
         for(uint256 i = 0; i < _times; i++){
             _mint(_msgSender(), 1 + totalPatients++);
         }
-    }  
+    }
 }
