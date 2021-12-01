@@ -8,6 +8,10 @@ const config: Config = {
   readOnlyChainId: ChainId.Localhost,
   readOnlyUrls: {
     [ChainId.Localhost]: 'http://127.0.0.1:8545',
+  },
+  multicallAddresses: {
+    // replace with your own multicall
+    [ChainId.Localhost]: '0x0'
   }
 }
 
