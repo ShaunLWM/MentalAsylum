@@ -5,6 +5,8 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { MentalAsylum } from "../typechain-types/MentalAsylum";
 
+const BASE_URI = "https://example.com/";
+
 const jsonProvider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
 
 describe("MentalAsylum", () => {
@@ -43,6 +45,29 @@ describe("MentalAsylum", () => {
 
   it("should not allow nonOwner to call setPresale method", async () => {
     await expectRevert(MentalAsylumContract.connect(alice).setPresale(bob.address, 10), "Ownable: caller is not the owner");
+  });
+
+  describe("Changing Settings", () => {
+    it("should initially have empty baseURI", async () => {
+      expect(await MentalAsylumContract.baseURI()).to.equal("");
+    });
+
+    it("should not allow nonOwner to set baseURI", async () => {
+      expect(await MentalAsylumContract.baseURI()).to.equal("");
+      await expectRevert(MentalAsylumContract.connect(bob).setBaseURI(BASE_URI), "Ownable: caller is not the owner");
+      expect(await MentalAsylumContract.baseURI()).to.equal("");
+    });
+
+    it("should display error when nothing is minted yet", async() => {
+      await expectRevert(MentalAsylumContract.tokenURI(1), "ERC721Metadata: URI query for nonexistent token.");
+    });
+
+    it("should allow owner to change baseURI", async () => {
+      expect(await MentalAsylumContract.baseURI()).to.equal("");
+      const changeBaseUri = await MentalAsylumContract.connect(deployer).setBaseURI(BASE_URI);
+      await changeBaseUri.wait();
+      expect(await MentalAsylumContract.baseURI()).to.equal(BASE_URI);
+    });
   });
 
   describe("Start NFT Presale", () => {
@@ -114,6 +139,10 @@ describe("MentalAsylum", () => {
       // Bob has already deployed 1 above
       // TODO: Fix order of test?
       expect(await MentalAsylumContract.totalPatients()).to.equal(2);
+    });
+
+    it("should display tokenURI properly after minting", async () => {
+      expect(await MentalAsylumContract.tokenURI(1)).to.equal(`${BASE_URI}1.json`);
     });
   });
 });
