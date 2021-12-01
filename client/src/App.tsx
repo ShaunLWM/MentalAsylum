@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Navigation } from "./components/Navigation";
+import { PageMeta } from "./components/PageMeta";
 import { HomeScreen } from "./pages/HomeScreen";
 import { Web3Page } from "./pages/playground/Web3Page";
 
@@ -16,6 +17,7 @@ Optional path  we need:
 function App() {
 	return (
 		<BrowserRouter>
+			<PageMeta />
 			<Routes>
 				<Route path="/" element={<Navigation />}>
 					<Route index element={<HomeScreen />} />

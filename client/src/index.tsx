@@ -1,27 +1,16 @@
-import { ChainId, Config, DAppProvider } from '@usedapp/core';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
-const config: Config = {
-  readOnlyChainId: ChainId.Localhost,
-  readOnlyUrls: {
-    [ChainId.Localhost]: 'http://127.0.0.1:8545',
-  },
-  multicallAddresses: {
-    // replace with your own multicall
-    [ChainId.Localhost]: '0x0'
-  }
-}
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { Providers } from "./Providers";
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <DAppProvider config={config}>
-      <App />
-    </DAppProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<Providers>
+			<App />
+		</Providers>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 reportWebVitals();
