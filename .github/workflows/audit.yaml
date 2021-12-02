@@ -39,7 +39,7 @@ jobs:
         id: slither
         continue-on-error: true
         run: |
-          body=$(slither . 2>&1)
+          body="$(slither . 2>&1)"
           echo "::set-output name=output::$body"
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
