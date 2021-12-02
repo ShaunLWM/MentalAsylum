@@ -38,11 +38,19 @@ jobs:
       - name: Run Slither
         id: slither
         continue-on-error: true
+        run: slither . > output.txt 2>&1
+      - name: Get error comment body
+        id: get-comment-body-error
         run: |
-          body="$(slither . 2>&1)"
-          echo "::set-output name=output::$body"
+          body=$(cat output.txt)
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}" 
+          echo ::set-output name=body::$body
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
           body: |
-            ```${{steps.slither.outputs.output}}```
+            ```
+            ${{ steps.get-comment-body-error.outputs.body }}
+            ```
