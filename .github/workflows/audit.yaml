@@ -37,8 +37,11 @@ jobs:
           pip3 install slither-analyzer
       - name: Run Slither
         id: slither
-        run: echo "::set-output name=output::$(slither .)"
+        run: |
+          body=$(slither .)
+          echo ::set-output name=output::$body
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
-          body: ${{steps.slither.outputs.output}}
+          body: |
+            ```${{steps.slither.outputs.output}}```
