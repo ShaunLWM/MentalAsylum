@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: trailofbits/slither:latest
+    runs-on: trailofbits/slither
 
     steps:
     - uses: actions/checkout@v2
