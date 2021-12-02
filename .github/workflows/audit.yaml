@@ -30,4 +30,4 @@ jobs:
           sudo apt-get update
           sudo apt-get install solc
           pip3 install slither-analyzer
-          slither .
+          slither .  --print human-summary
