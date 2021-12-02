@@ -55,4 +55,4 @@ jobs:
             ${{ steps.get-comment-body-error.outputs.body }}
             ```
       - name: Run Mythril
-        run: myth analyze **/*.sol
+        run: myth analyze **/*.sol --standard-json ./mythril-mapping.json
