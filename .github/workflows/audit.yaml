@@ -10,8 +10,18 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: trailofbits/slither
+    runs-on: ubuntu-18.04
 
     steps:
     - uses: actions/checkout@v2
-    - run: "solc **/*.sol"
+    - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64'
+          cache: 'pip'
+    - run: |
+          sudo add-apt-repository ppa:ethereum/ethereum
+          sudo apt-get update
+          sudo apt-get install solc
+          pip3 install slither-analyzer
+          slither .
