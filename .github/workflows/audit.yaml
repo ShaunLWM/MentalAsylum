@@ -24,10 +24,17 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-      - run: |
+      - name: Setup
+        run: |
           yarn
           sudo add-apt-repository ppa:ethereum/ethereum
           sudo apt-get update
           sudo apt-get install solc
           pip3 install slither-analyzer
-          slither .  --print human-summary
+      - name: Run Slither
+        id: slither
+        run: echo "::set-output name=output::$(slither .)"
+      - name: Create commit comment
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: ${{steps.slither.outputs.output}}
