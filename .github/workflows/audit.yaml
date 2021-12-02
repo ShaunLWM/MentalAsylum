@@ -39,7 +39,7 @@ jobs:
         id: slither
         run: |
           body=$(slither .)
-          echo ::set-output name=output::$body
+          echo "::set-output name=output::$body"
       - name: Create commit comment
         uses: peter-evans/commit-comment@v1
         with:
