@@ -57,7 +57,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     function mint(uint256 _times) payable public {
         require(started, "not started");
         require(_times > 0 && _times <= maxBatch, "must mint fewer in each batch");
-        mintItem(_times,false);
+        mintItem(_times, false);
     }   
 
     function mintItem(uint256 _times, bool fromPremint) internal {
@@ -70,7 +70,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
 
         emit MintPatient(_msgSender(), totalPatients + 1, _times);
         for(uint256 i = 0; i < _times; i++){
-            _mint(_msgSender(), 1 + totalPatients++);
+            _safeMint(_msgSender(), 1 + totalPatients++);
         }
     }
 }
