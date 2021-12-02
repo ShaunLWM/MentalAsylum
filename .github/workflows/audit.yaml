@@ -3,8 +3,13 @@ name: Slither
 on:
   push:
     branches: [ master ]
+    paths:
+      - "contracts/**"
+      - ".github/workflows/slither.yaml"
   pull_request:
     branches: [ master ]
+    paths:
+      - "contracts/**"
   workflow_dispatch:
 
 jobs:
