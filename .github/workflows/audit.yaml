@@ -5,7 +5,7 @@ on:
     branches: [ master ]
     paths:
       - "contracts/**"
-      - ".github/workflows/slither.yaml"
+      - ".github/workflows/audit.yaml"
   pull_request:
     branches: [ master ]
     paths:
