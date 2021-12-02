@@ -34,7 +34,7 @@ jobs:
           sudo add-apt-repository ppa:ethereum/ethereum
           sudo apt-get update
           sudo apt-get install solc
-          pip3 install slither-analyzer
+          pip3 install slither-analyzer mythril
       - name: Run Slither
         id: slither
         continue-on-error: true
@@ -54,3 +54,5 @@ jobs:
             ```
             ${{ steps.get-comment-body-error.outputs.body }}
             ```
+      - name: Run Mythril
+        run: myth analyze **/*.sol
