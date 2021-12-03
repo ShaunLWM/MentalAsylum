@@ -32,7 +32,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     }
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token.");
+        require(_exists(tokenId), "Non-existent token");
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json")) : '.json';
     }
 
@@ -49,20 +49,20 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     }
 
     function premint(uint256 _times) payable public {
-        require(presaleStarted && !started, "presale not started");
-        require(presales[_msgSender()] > 0 && _times <= presales[_msgSender()], "not allowed");
+        require(presaleStarted && !started, "Presale not started");
+        require(presales[_msgSender()] > 0 && _times <= presales[_msgSender()], "No presale for user");
         mintItem(_times, true);
     }
 
     function mint(uint256 _times) payable public {
-        require(started, "not started");
-        require(_times > 0 && _times <= maxBatch, "must mint fewer in each batch");
+        require(started, "Not started");
+        require(_times > 0 && _times <= maxBatch, "Max mint reached");
         mintItem(_times, false);
-    }   
+    }
 
     function mintItem(uint256 _times, bool fromPremint) internal {
-        require(totalPatients + _times <= totalCount, "max supply reached!");
-        require(msg.value == _times * price, "value error, please check price.");
+        require(totalPatients + _times <= totalCount, "Max supply hit");
+        require(msg.value == _times * price, "Wrong mint price");
         payable(owner()).transfer(msg.value);
         if (fromPremint) {
             presales[_msgSender()] -= _times;
