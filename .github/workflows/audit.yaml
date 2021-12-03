@@ -28,10 +28,13 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Install yarn if on act
+        if: ${{ env.ACT }}
+        run: npm -g i yarn
       - name: Setup
         run: |
           yarn
-          sudo add-apt-repository ppa:ethereum/ethereum
+          sudo add-apt-repository -y ppa:ethereum/ethereum
           sudo apt-get update
           sudo apt-get install solc
           pip3 install slither-analyzer mythril
@@ -40,6 +43,7 @@ jobs:
         continue-on-error: true
         run: slither . > output.txt 2>&1
       - name: Get error comment body
+        if: ${{ !env.ACT }}
         id: get-comment-body-error
         run: |
           body=$(cat output.txt)
@@ -55,4 +59,4 @@ jobs:
             ${{ steps.get-comment-body-error.outputs.body }}
             ```
       - name: Run Mythril
-        run: myth analyze **/*.sol --standard-json ./mythril-mapping.json
+        run: myth analyze **/*.sol --solc-json ./mythril-mapping.json

@@ -1,5 +1,5 @@
 {
-	"remappings": ["@openzeppelin/contracts/access/Ownable/=../node_modules/@openzeppelin/contracts/access/","@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable/=../node_modules/@openzeppelin/contracts/token/ERC721/extensions/","@openzeppelin/contracts/utils/Strings/=../node_modules/@openzeppelin/contracts/utils/"],
+	"remappings": ["@openzeppelin/=../node_modules/@openzeppelin/"],
 	"optimizer": {
 		"enabled": true
 	}
