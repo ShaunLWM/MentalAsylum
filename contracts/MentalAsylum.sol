@@ -27,7 +27,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         baseURI = baseURI_;
     }
 
-    function setBaseURI(string memory _newURI) public onlyOwner {
+    function setBaseURI(string memory _newURI) external onlyOwner {
         baseURI = _newURI;
     }
 
@@ -36,25 +36,25 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString(), ".json")) : '.json';
     }
 
-    function setStart(bool _start) public onlyOwner {
+    function setStart(bool _start) external onlyOwner {
         started = _start;
     }
 
-    function setPresaleStart(bool _start) public onlyOwner {
+    function setPresaleStart(bool _start) external onlyOwner {
         presaleStarted = _start;
     }
 
-    function setPresale(address _user, uint256 _times) public onlyOwner {
+    function setPresale(address _user, uint256 _times) external onlyOwner {
         presales[_user] = _times;
     }
 
-    function premint(uint256 _times) payable public {
+    function premint(uint256 _times) payable external {
         require(presaleStarted && !started, "Presale not started");
         require(presales[_msgSender()] > 0 && _times <= presales[_msgSender()], "No presale for user");
         mintItem(_times, true);
     }
 
-    function mint(uint256 _times) payable public {
+    function mint(uint256 _times) payable external {
         require(started, "Not started");
         require(_times > 0 && _times <= maxBatch, "Max mint reached");
         mintItem(_times, false);
