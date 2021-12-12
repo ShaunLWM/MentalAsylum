@@ -70,7 +70,7 @@ const config: HardhatUserConfig = {
         blockNumber: Number(process.env.FORKING_BLOCK_NUMBER) || 13708836,
       },
       live: false,
-      saveDeployments: true,
+      // saveDeployments: true,
       tags: ["test", "local"],
       chainId: 1337,
     },
