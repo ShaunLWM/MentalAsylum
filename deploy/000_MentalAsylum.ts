@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
-export default async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironment) => {
+const MentalAsylumDeployment = async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
@@ -11,3 +11,7 @@ export default async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironme
 
   console.log(`MentalAsylum deployed to ${address}`);
 };
+
+MentalAsylumDeployment.tags = ["MentalAsylumDeployment"];
+
+export default MentalAsylumDeployment;

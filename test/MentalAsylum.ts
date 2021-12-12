@@ -4,6 +4,7 @@ import { expectRevert } from "@openzeppelin/test-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { MentalAsylum } from "../typechain-types/MentalAsylum";
+import { setupFixtures } from "./setup";
 
 const ERROR_NON_EXISTANT_TOKEN = "Non-existent token";
 const ERROR_PRESALE_NOT_STARTED = "Presale not started";
@@ -28,10 +29,10 @@ describe("MentalAsylum", () => {
   let bob: SignerWithAddress; // presale user
 
   before(async () => {
-    [deployer, alice, bob] = await ethers.getSigners();
-    const mentalAsylum = await ethers.getContractFactory("MentalAsylum");
-    MentalAsylumContract = (await mentalAsylum.connect(deployer).deploy("MentalAsylum", "ASY", "")) as MentalAsylum;
-    await MentalAsylumContract.deployed();
+    ({
+      accounts: { deployer, alice, bob },
+      contracts: { MentalAsylumContract },
+    } = await setupFixtures());
   });
 
   it("should properly deploy MentalAsylum contract", async () => {
