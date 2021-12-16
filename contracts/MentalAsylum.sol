@@ -73,4 +73,8 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
             _safeMint(_msgSender(), 1 + totalPatients++);
         }
     }
+
+    fallback() external payable {}
+
+    receive() external payable {}
 }
