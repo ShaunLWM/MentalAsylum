@@ -158,4 +158,18 @@ describe("MentalAsylum", () => {
       expect(await MentalAsylumContract.tokenURI(1)).to.equal(`${BASE_URI}1.json`);
     });
   });
+
+  describe("Misc", () => {
+    it("should pass fallback function", async () => {
+      const bobBalance = await jsonProvider.getBalance(bob.address);
+      await bob.sendTransaction({ to: MentalAsylumContract.address, value: ethers.utils.parseEther("1") });
+      expect(await jsonProvider.getBalance(bob.address)).to.lt(bobBalance); // lazy calculate gas etc
+    });
+
+    it("should pass receive function", async () => {
+      const bobBalance = await jsonProvider.getBalance(bob.address);
+      await bob.sendTransaction({ to: MentalAsylumContract.address, value: ethers.utils.parseEther("1"), data: "0x01"});
+      expect(await jsonProvider.getBalance(bob.address)).to.lt(bobBalance); // lazy calculate gas etc
+    });
+  });
 });
