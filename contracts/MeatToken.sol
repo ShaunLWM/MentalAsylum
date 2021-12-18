@@ -19,9 +19,6 @@ contract MeatToken is ERC20("Meat", "MEAT") {
 
     mapping(address => uint256) public rewards;
 	mapping(address => uint256) public lastUpdate;
-    // should we have max cap?
-    uint256 _totalSupply = 10000000;
-
 
 	event RewardsClaimed(address indexed user, uint256 reward);
 
@@ -38,20 +35,16 @@ contract MeatToken is ERC20("Meat", "MEAT") {
 		return a < b ? a : b;
 	}
 
-    function totalSupply() public view virtual override returns (uint256) {
-        return _totalSupply;
-    }
-
     function updateRewardOnMint(address _user, uint256 _amount) ensureBaseContract external  {
         uint256 time = min(block.timestamp, END_DATE);
         uint256 userLastUpdated = lastUpdate[_user];
-         
+
         if (userLastUpdated > 0) {
             /*
 
                 rewards[_user] = rewards[_user].add(BASE_CONTRACT.balanceOG(_user).mul(BASE_RATE.mul((time.sub(userLastUpdated)))).div(86400).add(_amount.mul(INITIAL_ISSUANCE)));
                                  currentRewards +  (currentAmount                    *           (BASE_RATE *  (cur - last))         / 86400)                    )
-           
+
                 let's say user has minted before, and now minting a second NFT
                 user token when he minted the first NFT = 300 tokens
 
@@ -72,7 +65,7 @@ contract MeatToken is ERC20("Meat", "MEAT") {
             */
 
             rewards[_user] = rewards[_user] + (((BASE_CONTRACT.balanceOf(_user) * (BASE_RATE * (time - userLastUpdated))/86400)) + (_amount * INITIAL_ISSUANCE));
-           } else {
+        } else {
             rewards[_user] += _amount * INITIAL_ISSUANCE;
         }
 
