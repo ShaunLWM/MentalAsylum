@@ -3,7 +3,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
 import { expectRevert } from "@openzeppelin/test-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { MentalAsylum } from "../typechain-types/MentalAsylum";
+import { MeatToken, MentalAsylum } from "../typechain-types";
 import { setupFixtures } from "./setup";
 
 const ERROR_NON_EXISTANT_TOKEN = "Non-existent token";
@@ -24,6 +24,7 @@ const jsonProvider = new ethers.providers.JsonRpcProvider("http://localhost:8545
 
 describe("MentalAsylum", () => {
   let MentalAsylumContract: MentalAsylum;
+  let MeatTokenContract: MeatToken;
   let deployer: SignerWithAddress; //owner
   let alice: SignerWithAddress; // normal user
   let bob: SignerWithAddress; // presale user
@@ -31,8 +32,11 @@ describe("MentalAsylum", () => {
   before(async () => {
     ({
       accounts: { deployer, alice, bob },
-      contracts: { MentalAsylumContract },
+      contracts: { MentalAsylumContract, MeatTokenContract },
     } = await setupFixtures());
+
+    const setTokenAddress = await MentalAsylumContract.setMeatToken(MeatTokenContract.address);
+    await setTokenAddress.wait();
   });
 
   it("should properly deploy MentalAsylum contract", async () => {

@@ -5,6 +5,7 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "./MeatToken.sol";
 
 contract MentalAsylum is ERC721Enumerable, Ownable {
     using Strings for uint256;
@@ -16,12 +17,14 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     uint256 public totalCount = 9999;
 
     uint256 public maxBatch = 10;
-    uint256 public price = 50000000000000000;
+    uint256 public price = 0.05 ether;
 
     string public baseURI;
 
     bool public started;
     bool public presaleStarted;
+
+    MeatToken public meatToken;
 
     constructor(string memory name_, string memory symbol_, string memory baseURI_) ERC721(name_, symbol_) {
         baseURI = baseURI_;
@@ -30,6 +33,10 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
     function setBaseURI(string memory _newURI) external onlyOwner {
         baseURI = _newURI;
     }
+
+    function setMeatToken(address token) external onlyOwner {
+		meatToken = MeatToken(token);
+	}
 
     function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
         require(_exists(tokenId), "Non-existent token");
@@ -69,6 +76,7 @@ contract MentalAsylum is ERC721Enumerable, Ownable {
         }
 
         emit MintPatient(_msgSender(), totalPatients + 1, _times);
+        meatToken.updateRewardOnMint(_msgSender(), _times);
         for(uint256 i = 0; i < _times; i++){
             _safeMint(_msgSender(), 1 + totalPatients++);
         }
