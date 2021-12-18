@@ -175,5 +175,17 @@ describe("MentalAsylum", () => {
       await bob.sendTransaction({ to: MentalAsylumContract.address, value: ethers.utils.parseEther("1"), data: "0x01"});
       expect(await jsonProvider.getBalance(bob.address)).to.lt(bobBalance); // lazy calculate gas etc
     });
+
+    it("should allow transfer of NFT", async () => {
+      // bob preminted first
+      const aliceBalance = await MentalAsylumContract.balanceOf(alice.address);
+      const bobBalance = await MentalAsylumContract.balanceOf(bob.address);
+      expect(aliceBalance).to.gt(0);
+      expect(bobBalance).to.gt(0);
+      expect(await MentalAsylumContract.ownerOf(1)).to.eq(bob.address);
+      await MentalAsylumContract.connect(bob).transferFrom(bob.address, alice.address, 1);
+      expect(await MentalAsylumContract.balanceOf(alice.address)).to.equal(aliceBalance.add(1));
+      expect(await MentalAsylumContract.balanceOf(bob.address)).to.equal(bobBalance.sub(1));
+    })
   });
 });
