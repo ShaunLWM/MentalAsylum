@@ -40,7 +40,7 @@ describe("MentalAsylum", () => {
     expect(await MentalAsylumContract.name()).to.equal("MentalAsylum");
   });
 
-  it("should list Alice as contract owner", async () => {
+  it("should list \"deployer\" as contract owner", async () => {
     expect(await MentalAsylumContract.owner()).to.equal(deployer.address);
   });
 
