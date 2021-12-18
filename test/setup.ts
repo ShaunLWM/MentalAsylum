@@ -1,7 +1,7 @@
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
-import { Contract } from "ethers";
-import { deployments } from "hardhat";
 import { getNamedSigners } from "@nomiclabs/hardhat-ethers/dist/src/helpers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+import { deployments } from "hardhat";
+import { MeatToken } from "../typechain-types";
 import { MentalAsylum } from "../typechain-types/MentalAsylum";
 
 interface FixtureState {
@@ -12,7 +12,7 @@ interface FixtureState {
     readonly carol: SignerWithAddress;
   };
   contracts: {
-    readonly MeatTokenContract: Contract;
+    readonly MeatTokenContract: MeatToken;
     readonly MentalAsylumContract: MentalAsylum;
   };
 }
@@ -23,7 +23,7 @@ export const setupFixtures = deployments.createFixture(async (hre): Promise<Fixt
   await deployments.all();
   await deployments.fixture(); // ensure you start from a fresh deployments
   const { deployer, alice, bob, carol } = await getNamedSigners(hre); // from hardhat.config.ts
-  const MeatTokenContract = await ethers.getContract("MeatToken", deployer);
+  const MeatTokenContract = await ethers.getContract<MeatToken>("MeatToken", deployer);
   const MentalAsylumContract = await ethers.getContract<MentalAsylum>("MentalAsylum", deployer);
   return {
     accounts: {
